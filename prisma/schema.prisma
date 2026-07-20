@@ -1,0 +1,119 @@
+// This is your Prisma schema file for Neon (serverless PostgreSQL)
+// Learn more about Neon: https://neon.tech
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL")
+}
+
+// ─── Enums ───────────────────────────────────────────────────────────────────
+
+enum Role {
+  ADMIN
+  STAFF
+}
+
+enum OrderStatus {
+  PENDING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+enum ExpenseCategory {
+  RENT
+  MARKETING
+  STOCK
+  UTILITIES
+  SALARIES
+  OTHER
+}
+
+// ─── Models ──────────────────────────────────────────────────────────────────
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(STAFF)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Product {
+  id                String      @id @default(cuid())
+  name              String
+  category          String
+  price             Float
+  costPrice         Float
+  shippingCost      Float       @default(0)
+  quantity          Int         @default(0)
+  lowStockThreshold Int         @default(10)
+  description       String?
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  orderItems        OrderItem[]
+
+  @@map("products")
+}
+
+model Customer {
+  id        String   @id @default(cuid())
+  name      String
+  email     String?
+  phone     String?
+  address   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  orders    Order[]
+
+  @@map("customers")
+}
+
+model Order {
+  id          String      @id @default(cuid())
+  orderNumber String      @unique
+  customerId  String
+  customer    Customer    @relation(fields: [customerId], references: [id])
+  items       OrderItem[]
+  status      OrderStatus @default(PENDING)
+  totalAmount Float
+  notes       String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  unitPrice Float
+
+  @@map("order_items")
+}
+
+model Expense {
+  id        String          @id @default(cuid())
+  title     String
+  amount    Float
+  category  ExpenseCategory
+  date      DateTime        @default(now())
+  notes     String?
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+
+  @@map("expenses")
+}
