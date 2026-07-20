@@ -8,6 +8,7 @@ const customerRoutes = require('../server/routes/customers');
 const orderRoutes = require('../server/routes/orders');
 const dashboardRoutes = require('../server/routes/dashboard');
 const expenseRoutes = require('../server/routes/expenses');
+const salesRoutes = require('../server/routes/sales');
 
 const app = express();
 app.use(cors());
@@ -19,6 +20,7 @@ app.use('/api/customers', customerRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/expenses', expenseRoutes);
+app.use('/api/sales', salesRoutes);
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok', serverless: true }));
 

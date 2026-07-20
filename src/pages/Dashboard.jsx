@@ -21,7 +21,7 @@ const CustomTooltip = ({ active, payload, label }) => {
         <p className="text-xs text-muted mb-2">{label}</p>
         {payload.map((entry, i) => (
           <p key={i} style={{ color: entry.color }} className="text-sm font-medium">
-            {entry.name}: ${entry.value?.toLocaleString()}
+            {entry.name}: ₹{entry.value?.toLocaleString()}
           </p>
         ))}
       </div>
@@ -93,7 +93,7 @@ const Dashboard = () => {
             <LineChart data={charts?.dailyChart || []} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#2d3148" />
               <XAxis dataKey="name" tick={{ fill: '#64748b', fontSize: 11 }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fill: '#64748b', fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={v => `$${v}`} />
+              <YAxis tick={{ fill: '#64748b', fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={v => `₹${v}`} />
               <Tooltip content={<CustomTooltip />} />
               <Legend wrapperStyle={{ paddingTop: '16px', fontSize: '12px', color: '#94a3b8' }} />
               <Line type="monotone" dataKey="sales" stroke="#10b981" strokeWidth={2.5} dot={{ fill: '#10b981', r: 3 }} name="Sales" />
@@ -145,7 +145,7 @@ const Dashboard = () => {
                   <tr key={order.id} className="table-row-hover">
                     <td className="px-6 py-3 font-medium text-accent-light">{order.orderNumber}</td>
                     <td className="px-6 py-3 text-text-secondary">{order.customer?.name}</td>
-                    <td className="px-6 py-3 text-text-primary font-medium">${order.totalAmount?.toLocaleString()}</td>
+                    <td className="px-6 py-3 text-text-primary font-medium">₹{order.totalAmount?.toLocaleString()}</td>
                     <td className="px-6 py-3"><Badge value={order.status} /></td>
                   </tr>
                 )) : (

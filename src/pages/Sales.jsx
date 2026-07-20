@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { TrendingUp, DollarSign, Award, Calendar } from 'lucide-react';
 import {
   AreaChart, Area, BarChart, Bar, XAxis, YAxis,
-  CartesianGrid, Tooltip, Legend, ResponsiveContainer
+  CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell
 } from 'recharts';
 import * as salesApi from '../api/sales';
 import KPICard from '../components/KPICard';
@@ -17,7 +17,7 @@ const CustomTooltip = ({ active, payload, label }) => {
         <p className="text-xs text-muted mb-2">{label}</p>
         {payload.map((entry, i) => (
           <p key={i} style={{ color: entry.color }} className="text-sm font-medium">
-            {entry.name}: ${entry.value?.toLocaleString()}
+            {entry.name}: ₹{entry.value?.toLocaleString()}
           </p>
         ))}
       </div>
@@ -98,7 +98,7 @@ const Sales = () => {
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#2d3148" vertical={false} />
               <XAxis dataKey="name" tick={{ fill: '#64748b', fontSize: 12 }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fill: '#64748b', fontSize: 12 }} axisLine={false} tickLine={false} tickFormatter={v => `$${v}`} />
+              <YAxis tick={{ fill: '#64748b', fontSize: 12 }} axisLine={false} tickLine={false} tickFormatter={v => `₹${v}`} />
               <Tooltip content={<CustomTooltip />} />
               <Legend wrapperStyle={{ paddingTop: '20px', fontSize: '13px', color: '#94a3b8' }} />
               <Area type="monotone" dataKey="sales" name="Revenue" stroke="#10b981" strokeWidth={2} fillOpacity={1} fill="url(#colorSales)" />
@@ -114,7 +114,7 @@ const Sales = () => {
             <BarChart data={monthlyData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#2d3148" vertical={false} />
               <XAxis dataKey="name" tick={{ fill: '#64748b', fontSize: 12 }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fill: '#64748b', fontSize: 12 }} axisLine={false} tickLine={false} tickFormatter={v => `$${v}`} />
+              <YAxis tick={{ fill: '#64748b', fontSize: 12 }} axisLine={false} tickLine={false} tickFormatter={v => `₹${v}`} />
               <Tooltip content={<CustomTooltip />} />
               <Bar dataKey="profit" name="Profit" radius={[4, 4, 0, 0]}>
                 {monthlyData.map((entry, index) => (
