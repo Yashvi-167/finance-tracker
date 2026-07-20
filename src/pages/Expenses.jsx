@@ -103,7 +103,7 @@ const Expenses = () => {
         <div>
           <h1 className="text-2xl font-bold text-text-primary">Expenses</h1>
           <p className="text-sm text-muted mt-0.5">
-            Total: <span className="text-danger font-semibold">${summary?.total?.toFixed(2) || '0.00'}</span>
+            Total: <span className="text-danger font-semibold">₹{summary?.total?.toFixed(2) || '0.00'}</span>
           </p>
         </div>
         <button id="add-expense-btn" onClick={openAddModal} className="btn-primary">
@@ -124,7 +124,7 @@ const Expenses = () => {
                     <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip formatter={(v) => [`$${v.toFixed(2)}`, '']} contentStyle={{ background: '#1a1d2e', border: '1px solid #2d3148', borderRadius: '8px', color: '#e2e8f0' }} />
+                <Tooltip formatter={(v) => [`₹${v.toFixed(2)}`, '']} contentStyle={{ background: '#1a1d2e', border: '1px solid #2d3148', borderRadius: '8px', color: '#e2e8f0' }} />
                 <Legend wrapperStyle={{ fontSize: '11px', color: '#94a3b8' }} />
               </PieChart>
             </ResponsiveContainer>
@@ -143,7 +143,7 @@ const Expenses = () => {
                 <div key={cat.name}>
                   <div className="flex justify-between text-sm mb-1">
                     <span className="text-text-secondary">{cat.name}</span>
-                    <span className="font-medium text-text-primary">${cat.value.toFixed(2)}</span>
+                    <span className="font-medium text-text-primary">₹{cat.value.toFixed(2)}</span>
                   </div>
                   <div className="w-full bg-surface-2 rounded-full h-1.5">
                     <div className="h-1.5 rounded-full transition-all duration-500"
@@ -195,7 +195,7 @@ const Expenses = () => {
                   <tr key={expense.id} className="table-row-hover">
                     <td className="px-6 py-4 font-medium text-text-primary">{expense.title}</td>
                     <td className="px-6 py-4"><Badge value={expense.category} type="category" /></td>
-                    <td className="px-6 py-4 font-bold text-danger">${expense.amount?.toFixed(2)}</td>
+                    <td className="px-6 py-4 font-bold text-danger">₹{expense.amount?.toFixed(2)}</td>
                     <td className="px-6 py-4 text-text-secondary text-xs">
                       {new Date(expense.date).toLocaleDateString()}
                     </td>
@@ -263,7 +263,7 @@ const Expenses = () => {
       <Modal isOpen={!!deleteConfirm} onClose={() => setDeleteConfirm(null)} title="Delete Expense" size="sm">
         <div className="text-center">
           <p className="text-text-primary font-medium mb-1">Delete "{deleteConfirm?.title}"?</p>
-          <p className="text-sm text-muted mb-6">Amount: ${deleteConfirm?.amount?.toFixed(2)}</p>
+          <p className="text-sm text-muted mb-6">Amount: ₹{deleteConfirm?.amount?.toFixed(2)}</p>
           <div className="flex gap-3 justify-center">
             <button onClick={() => setDeleteConfirm(null)} className="px-5 py-2 rounded-lg text-sm bg-surface-2 text-text-secondary hover:bg-border">Cancel</button>
             <button onClick={() => handleDelete(deleteConfirm.id)} className="px-5 py-2 rounded-lg text-sm bg-danger text-white hover:bg-red-600 transition-colors">Delete</button>

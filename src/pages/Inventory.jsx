@@ -157,8 +157,8 @@ const Inventory = () => {
                       </div>
                     </td>
                     <td className="px-6 py-4 text-text-secondary">{product.category}</td>
-                    <td className="px-6 py-4 text-right font-medium text-text-primary">${product.price?.toFixed(2)}</td>
-                    <td className="px-6 py-4 text-right text-muted">${product.costPrice?.toFixed(2)}</td>
+                    <td className="px-6 py-4 text-right font-medium text-text-primary">₹{product.price?.toFixed(2)}</td>
+                    <td className="px-6 py-4 text-right text-muted">₹{product.costPrice?.toFixed(2)}</td>
                     <td className="px-6 py-4 text-center">
                       <span className={`font-bold text-base ${product.quantity === 0 ? 'text-danger' : product.isLowStock ? 'text-warning' : 'text-text-primary'}`}>
                         {product.quantity}

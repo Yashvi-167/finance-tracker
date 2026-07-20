@@ -73,9 +73,9 @@ const Sales = () => {
 
       {/* Summary KPIs */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-        <KPICard title="Total Revenue" value={summary.totalRevenue} icon={DollarSign} color="success" prefix="$" />
-        <KPICard title="Total Expenses" value={summary.totalExpenses} icon={TrendingUp} color="danger" prefix="$" />
-        <KPICard title="Net Profit" value={summary.totalProfit} icon={DollarSign} color="purple" prefix="$" />
+        <KPICard title="Total Revenue" value={summary.totalRevenue} icon={DollarSign} color="success" prefix="₹" />
+        <KPICard title="Total Expenses" value={summary.totalExpenses} icon={TrendingUp} color="danger" prefix="₹" />
+        <KPICard title="Net Profit" value={summary.totalProfit} icon={DollarSign} color="purple" prefix="₹" />
         <KPICard title="Best Month" value={summary.bestMonth} icon={Award} color="accent" />
       </div>
 
@@ -158,7 +158,7 @@ const Sales = () => {
                   <td className="px-6 py-4 font-medium text-text-primary">{product.name}</td>
                   <td className="px-6 py-4"><Badge value={product.category} type="category" /></td>
                   <td className="px-6 py-4 text-center font-medium text-text-secondary">{product.units}</td>
-                  <td className="px-6 py-4 text-right font-bold text-success">${product.revenue.toFixed(2)}</td>
+                  <td className="px-6 py-4 text-right font-bold text-success">₹{product.revenue.toFixed(2)}</td>
                 </tr>
               ))}
             </tbody>

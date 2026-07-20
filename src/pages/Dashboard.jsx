@@ -56,10 +56,10 @@ const Dashboard = () => {
     <div className="p-6 space-y-6 animate-fade-in">
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-        <KPICard title="Total Sales" value={stats?.totalSales || 0} icon={DollarSign} color="success" prefix="$" trendLabel="All time revenue" />
-        <KPICard title="Total Expenses" value={stats?.totalExpenses || 0} icon={TrendingUp} color="danger" prefix="$" trendLabel="All time costs" />
+        <KPICard title="Total Sales" value={stats?.totalSales || 0} icon={DollarSign} color="success" prefix="₹" trendLabel="All time revenue" />
+        <KPICard title="Total Expenses" value={stats?.totalExpenses || 0} icon={TrendingUp} color="danger" prefix="₹" trendLabel="All time costs" />
         <KPICard title="Total Orders" value={stats?.totalOrders || 0} icon={ShoppingCart} color="info" trendLabel="Across all statuses" />
-        <KPICard title="Net Profit" value={stats?.profit || 0} icon={DollarSign} color="purple" prefix="$" trendLabel="Sales minus expenses" />
+        <KPICard title="Net Profit" value={stats?.profit || 0} icon={DollarSign} color="purple" prefix="₹" trendLabel="Sales minus expenses" />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">

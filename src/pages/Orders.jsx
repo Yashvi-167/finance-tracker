@@ -224,7 +224,7 @@ const Orders = () => {
                     <td className="px-6 py-4 font-medium text-accent-light">{order.orderNumber}</td>
                     <td className="px-6 py-4 text-text-primary font-medium">{order.customer?.name}</td>
                     <td className="px-6 py-4 text-text-secondary">{order.items?.length} item(s)</td>
-                    <td className="px-6 py-4 font-bold text-text-primary">${order.totalAmount?.toFixed(2)}</td>
+                    <td className="px-6 py-4 font-bold text-text-primary">₹{order.totalAmount?.toFixed(2)}</td>
                     <td className="px-6 py-4">
                       <select value={order.status}
                         onChange={(e) => handleStatusUpdate(order.id, e.target.value)}
@@ -361,7 +361,7 @@ const Orders = () => {
                 rows={2} className="input-base resize-none" placeholder="Add order notes..." />
             </div>
             <div className="flex items-center justify-between pt-2 border-t border-border">
-              <p className="font-bold text-text-primary">Total: <span className="text-success text-lg">${orderTotal.toFixed(2)}</span></p>
+              <p className="font-bold text-text-primary">Total: <span className="text-success text-lg">₹{orderTotal.toFixed(2)}</span></p>
               <div className="flex gap-3">
                 <button onClick={() => setStep(1)} className="px-4 py-2 rounded-lg text-sm bg-surface-2 text-text-secondary hover:bg-border transition-colors">Back</button>
                 <button onClick={() => setStep(3)} className="btn-primary">Review Order</button>
@@ -387,13 +387,13 @@ const Orders = () => {
                   return (
                     <div key={idx} className="flex justify-between text-sm">
                       <span className="text-text-primary">{prod?.name} × {item.quantity}</span>
-                      <span className="font-medium text-text-primary">${(item.quantity * item.unitPrice).toFixed(2)}</span>
+                      <span className="font-medium text-text-primary">₹{(item.quantity * item.unitPrice).toFixed(2)}</span>
                     </div>
                   );
                 })}
                 <div className="border-t border-border pt-2 flex justify-between font-bold text-text-primary">
                   <span>Total</span>
-                  <span className="text-success text-lg">${orderTotal.toFixed(2)}</span>
+                  <span className="text-success text-lg">₹{orderTotal.toFixed(2)}</span>
                 </div>
               </div>
             </div>

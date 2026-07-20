@@ -66,7 +66,7 @@ const CustomerDetail = () => {
           <p className="text-sm font-medium text-muted mb-1 flex items-center gap-2">
             <ShoppingBag className="w-4 h-4" /> Total Spent
           </p>
-          <p className="text-3xl font-bold text-success">${totalSpent.toFixed(2)}</p>
+          <p className="text-3xl font-bold text-success">₹{totalSpent.toFixed(2)}</p>
           <p className="text-xs text-muted mt-2">{orders.length} total orders</p>
         </div>
       </div>
@@ -92,7 +92,7 @@ const CustomerDetail = () => {
                   <td className="px-6 py-4 text-text-secondary">
                     {order.items.map((i) => `${i.product?.name} (${i.quantity})`).join(', ')}
                   </td>
-                  <td className="px-6 py-4 font-bold text-text-primary">${order.totalAmount.toFixed(2)}</td>
+                  <td className="px-6 py-4 font-bold text-text-primary">₹{order.totalAmount.toFixed(2)}</td>
                   <td className="px-6 py-4"><Badge value={order.status} /></td>
                 </tr>
               ))}
