@@ -34,7 +34,7 @@ const getAll = async (req, res) => {
       include: {
         customer: { select: { id: true, name: true, phone: true } },
         items: {
-          include: { product: { select: { name: true } } },
+          include: { product: { select: { name: true, costPrice: true, shippingCost: true } } },
         },
       },
     }),
@@ -57,7 +57,7 @@ const getById = async (req, res) => {
     include: {
       customer: true,
       items: {
-        include: { product: { select: { id: true, name: true, category: true } } },
+        include: { product: { select: { id: true, name: true, category: true, costPrice: true, shippingCost: true } } },
       },
     },
   });

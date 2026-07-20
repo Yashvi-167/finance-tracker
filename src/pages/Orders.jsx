@@ -208,14 +208,14 @@ const Orders = () => {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border">
-                  {['Order #', 'Customer', 'Items', 'Total', 'Status', 'Date', 'Actions'].map((h) => (
+                  {['Order #', 'Customer', 'Items', 'Total', 'Profit', 'Status', 'Date', 'Actions'].map((h) => (
                     <th key={h} className="px-6 py-4 text-left text-xs font-semibold text-muted uppercase tracking-wider">{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
                 {orders.length === 0 ? (
-                  <tr><td colSpan={7} className="px-6 py-12 text-center text-muted">
+                  <tr><td colSpan={8} className="px-6 py-12 text-center text-muted">
                     <ShoppingCart className="w-10 h-10 mx-auto mb-3 opacity-30" />
                     <p>No orders found</p>
                   </td></tr>
@@ -225,6 +225,19 @@ const Orders = () => {
                     <td className="px-6 py-4 text-text-primary font-medium">{order.customer?.name}</td>
                     <td className="px-6 py-4 text-text-secondary">{order.items?.length} item(s)</td>
                     <td className="px-6 py-4 font-bold text-text-primary">₹{order.totalAmount?.toFixed(2)}</td>
+                    {(() => {
+                      const cost = order.items?.reduce((sum, item) => {
+                        const costPrice = item.product?.costPrice || 0;
+                        const shippingCost = item.product?.shippingCost || 0;
+                        return sum + ((costPrice + shippingCost) * item.quantity);
+                      }, 0) || 0;
+                      const profit = (order.totalAmount || 0) - cost;
+                      return (
+                        <td className={`px-6 py-4 font-bold ${profit >= 0 ? 'text-success' : 'text-danger'}`}>
+                          ₹{profit.toFixed(2)}
+                        </td>
+                      );
+                    })()}
                     <td className="px-6 py-4">
                       <select value={order.status}
                         onChange={(e) => handleStatusUpdate(order.id, e.target.value)}
@@ -327,7 +340,7 @@ const Orders = () => {
                     <option value="">Select product</option>
                     {products.map((p) => (
                       <option key={p.id} value={p.id} disabled={p.quantity === 0}>
-                        {p.name} (Stock: {p.quantity}) — ${p.price}
+                        {p.name} (Stock: {p.quantity}) — ₹{p.price}
                       </option>
                     ))}
                   </select>
