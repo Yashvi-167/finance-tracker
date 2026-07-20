@@ -226,6 +226,7 @@ const Inventory = () => {
               <input type="number" step="0.01" min="0" value={form.costPrice}
                 onChange={(e) => setForm({ ...form, costPrice: e.target.value })}
                 className="input-base" placeholder="0.00" required />
+            </div>
 
             <div>
               <label className="block text-sm font-medium text-text-secondary mb-1.5">Quantity</label>
