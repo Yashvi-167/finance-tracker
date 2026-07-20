@@ -73,7 +73,7 @@ const getById = async (req, res) => {
 // @route   POST /api/orders
 // @access  Protected
 const create = async (req, res) => {
-  const { customerId, items, notes } = req.body;
+  const { customerId, items, notes, shippingCost } = req.body;
 
   if (!customerId || !items || items.length === 0) {
     return res.status(400).json({ success: false, message: 'Customer and at least one item are required' });
@@ -120,6 +120,7 @@ const create = async (req, res) => {
         orderNumber,
         customerId,
         totalAmount,
+        shippingCost: parseFloat(shippingCost || 0),
         notes,
         items: {
           create: items.map((item) => ({
@@ -131,7 +132,7 @@ const create = async (req, res) => {
       },
       include: {
         customer: true,
-        items: { include: { product: { select: { name: true } } } },
+        items: { include: { product: { select: { name: true, costPrice: true, shippingCost: true } } } },
       },
     });
 
@@ -153,7 +154,7 @@ const create = async (req, res) => {
 // @route   PUT /api/orders/:id
 // @access  Protected
 const update = async (req, res) => {
-  const { status, notes, items } = req.body;
+  const { status, notes, items, shippingCost } = req.body;
 
   const existing = await prisma.order.findUnique({
     where: { id: req.params.id },
@@ -213,6 +214,7 @@ const update = async (req, res) => {
         data: {
           ...(status && { status }),
           ...(notes !== undefined && { notes }),
+          ...(shippingCost !== undefined && { shippingCost: parseFloat(shippingCost) }),
           totalAmount,
           items: {
             create: items.map((item) => ({
@@ -238,6 +240,7 @@ const update = async (req, res) => {
     data: {
       ...(status && { status }),
       ...(notes !== undefined && { notes }),
+      ...(shippingCost !== undefined && { shippingCost: parseFloat(shippingCost) }),
     },
     include: {
       customer: { select: { name: true } },

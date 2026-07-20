@@ -30,6 +30,7 @@ const Orders = () => {
   const [customerSearch, setCustomerSearch] = useState('');
   const [orderItems, setOrderItems] = useState([{ productId: '', quantity: 1, unitPrice: 0 }]);
   const [orderNotes, setOrderNotes] = useState('');
+  const [orderShipping, setOrderShipping] = useState(0);
   const [saving, setSaving] = useState(false);
 
   const fetchOrders = useCallback(async () => {
@@ -55,6 +56,7 @@ const Orders = () => {
     setSelectedCustomer('');
     setOrderItems([{ productId: '', quantity: 1, unitPrice: 0 }]);
     setOrderNotes('');
+    setOrderShipping(0);
     setCreateModal(true);
 
     try {
@@ -75,6 +77,7 @@ const Orders = () => {
     setSelectedCustomer(order.customerId || order.customer?.id);
     setOrderItems(order.items.map(i => ({ productId: i.productId, quantity: i.quantity, unitPrice: i.unitPrice })));
     setOrderNotes(order.notes || '');
+    setOrderShipping(order.shippingCost || 0);
     setCreateModal(true);
 
     try {
@@ -116,6 +119,7 @@ const Orders = () => {
         customerId: selectedCustomer,
         items: orderItems.map((i) => ({ productId: i.productId, quantity: parseInt(i.quantity), unitPrice: parseFloat(i.unitPrice) })),
         notes: orderNotes,
+        shippingCost: parseFloat(orderShipping || 0),
       };
       
       if (editingOrder) {
@@ -228,10 +232,10 @@ const Orders = () => {
                     {(() => {
                       const cost = order.items?.reduce((sum, item) => {
                         const costPrice = item.product?.costPrice || 0;
-                        const shippingCost = item.product?.shippingCost || 0;
-                        return sum + ((costPrice + shippingCost) * item.quantity);
+                        return sum + (costPrice * item.quantity);
                       }, 0) || 0;
-                      const profit = (order.totalAmount || 0) - cost;
+                      const shipping = order.shippingCost || 0;
+                      const profit = (order.totalAmount || 0) - cost - shipping;
                       return (
                         <td className={`px-6 py-4 font-bold ${profit >= 0 ? 'text-success' : 'text-danger'}`}>
                           ₹{profit.toFixed(2)}
@@ -373,6 +377,12 @@ const Orders = () => {
               <textarea value={orderNotes} onChange={(e) => setOrderNotes(e.target.value)}
                 rows={2} className="input-base resize-none" placeholder="Add order notes..." />
             </div>
+            <div>
+              <label className="text-xs text-muted mb-1 block">Shipping Charge (₹)</label>
+              <input type="number" step="0.01" min="0" value={orderShipping}
+                onChange={(e) => setOrderShipping(e.target.value)}
+                className="input-base" placeholder="0.00" />
+            </div>
             <div className="flex items-center justify-between pt-2 border-t border-border">
               <p className="font-bold text-text-primary">Total: <span className="text-success text-lg">₹{orderTotal.toFixed(2)}</span></p>
               <div className="flex gap-3">
@@ -404,9 +414,19 @@ const Orders = () => {
                     </div>
                   );
                 })}
-                <div className="border-t border-border pt-2 flex justify-between font-bold text-text-primary">
-                  <span>Total</span>
-                  <span className="text-success text-lg">₹{orderTotal.toFixed(2)}</span>
+                <div className="border-t border-border pt-2 space-y-1">
+                  <div className="flex justify-between text-sm text-text-secondary">
+                    <span>Subtotal</span>
+                    <span>₹{orderTotal.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between text-sm text-text-secondary">
+                    <span>Shipping</span>
+                    <span>₹{parseFloat(orderShipping || 0).toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between font-bold text-text-primary pt-1 border-t border-border">
+                    <span>Grand Total</span>
+                    <span className="text-success text-lg">₹{(orderTotal + parseFloat(orderShipping || 0)).toFixed(2)}</span>
+                  </div>
                 </div>
               </div>
             </div>
